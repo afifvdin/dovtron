@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "661058115409",
+    "project_id": "dovtron-f9840",
+    "storage_bucket": "dovtron-f9840.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661058115409:android:44012e7aef0cf85f546570",
+        "android_client_info": {
+          "package_name": "com.example.dovtron"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661058115409-2heg588b5t8j65qvhi19nju1vf37fdsv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAye3ISsym_xB75cnR7js--W7GAYCCI_IQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661058115409-2heg588b5t8j65qvhi19nju1vf37fdsv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "661058115409-jsv8udpeh1bkn7oo109pgifcjodbgvsa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dovtron"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661058115409:android:f5a49de61f57a1b6546570",
+        "android_client_info": {
+          "package_name": "com.nanx_studio.dovtron"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661058115409-2heg588b5t8j65qvhi19nju1vf37fdsv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAye3ISsym_xB75cnR7js--W7GAYCCI_IQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661058115409-2heg588b5t8j65qvhi19nju1vf37fdsv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "661058115409-jsv8udpeh1bkn7oo109pgifcjodbgvsa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dovtron"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
