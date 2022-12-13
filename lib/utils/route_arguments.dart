@@ -5,3 +5,9 @@ class DetectionPageArguments {
 
   DetectionPageArguments(this.image);
 }
+
+class DiseasePageArguments {
+  final String name;
+
+  DiseasePageArguments(this.name);
+}

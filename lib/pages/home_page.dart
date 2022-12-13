@@ -269,18 +269,6 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget showCamera(context, controller) {
-  // final screen = MediaQuery.of(context).size;
-  // if (!controller.value.isInitialized) {
-  //   return const CupertinoActivityIndicator();
-  // }
-  // return SizedBox(
-  //   width: screen.width,
-  //   height: screen.height,
-  //   child: AspectRatio(
-  //     aspectRatio: controller.value.aspectRatio,
-  //     child: CameraPreview(controller),
-  //   ),
-  // );
   if (!controller.value.isInitialized) {
     return const CupertinoActivityIndicator();
   }

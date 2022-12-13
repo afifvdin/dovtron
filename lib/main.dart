@@ -17,6 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final cameras = await availableCameras();
   await Firebase.initializeApp(
+    name: 'Dovtron',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(ChangeNotifierProvider(
@@ -42,7 +43,8 @@ void main() async {
           return RouteAnimation.slide(
               settings, DetectionPage(image: args.image));
         } else if (settings.name == '/result') {
-          return RouteAnimation.slide(settings, const ResultPage());
+          DiseasePageArguments args = arguments as DiseasePageArguments;
+          return RouteAnimation.slide(settings, ResultPage(name: args.name));
         } else if (settings.name == '/settings') {
           return RouteAnimation.slide(settings, const SettingsPage());
         } else {

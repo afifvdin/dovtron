@@ -33,14 +33,23 @@ class _LoginPageState extends State<LoginPage> {
                 icon: const Icon(TablerIcons.square_x, color: Colors.black)),
           ),
           actions: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/settings');
-                  },
-                  icon: const Icon(TablerIcons.settings, color: Colors.black)),
-            )
+            StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/settings');
+                          },
+                          icon: const Icon(TablerIcons.settings,
+                              color: Colors.black)),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                })
           ],
           elevation: 0,
         ),

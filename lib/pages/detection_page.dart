@@ -3,7 +3,9 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
+import 'package:dio/dio.dart';
 import 'package:dovtron/utils/fade_animation.dart';
+import 'package:dovtron/utils/route_arguments.dart';
 import 'package:dovtron/utils/system_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,7 @@ class DetectionPage extends StatefulWidget {
 class _ResultPageState extends State<DetectionPage> {
   bool isDetected = false;
   bool isErrorUpload = false;
+  String predictions = 'Normal';
 
   @override
   void initState() {
@@ -33,81 +36,34 @@ class _ResultPageState extends State<DetectionPage> {
       isDetected = false;
       isErrorUpload = false;
     });
-    Future.delayed(const Duration(seconds: 2), () {
+    var url = "https://dovtronmodelpy-f4thffsvra-et.a.run.app/api/predict";
+    try {
+      var formData = FormData.fromMap({
+        'name': 'wendux',
+        'age': 25,
+        'image': await MultipartFile.fromFile(widget.image.path,
+            filename: 'images.txt'),
+      });
+      var response = await Dio().post(url, data: formData);
+      if (response.data['success']) {
+        setState(() {
+          isDetected = true;
+          isErrorUpload = false;
+          predictions = response.data['predictions'];
+        });
+      } else {
+        setState(() {
+          isDetected = true;
+          isErrorUpload = true;
+        });
+      }
+    } catch (e) {
       setState(() {
         isDetected = true;
-        isErrorUpload = false;
+        isErrorUpload = true;
       });
-    });
+    }
   }
-// Future<void> uploadImage() async {
-  //   setState(() {
-  //     isDetected = false;
-  //     isErrorUpload = false;
-  //   });
-  //   var url = Uri.parse("https://dovtron-backend.vercel.app/api/detection");
-  //   File file = File(widget.image.path);
-  //   try {
-  //     var request = http.MultipartRequest('POST', url);
-  //     request.files.add(http.MultipartFile.fromBytes(
-  //         'img', file.readAsBytesSync(),
-  //         filename: widget.image.path));
-  //     var res = await request.send();
-  //     var resData = await http.Response.fromStream(res);
-  //     var data = json.decode(resData.body);
-  //     print(data);
-  //     if (data['status'] == 'success') {
-  //       setState(() {
-  //         isDetected = true;
-  //         isErrorUpload = false;
-  //       });
-  //     } else {
-  //       setState(() {
-  //         isDetected = true;
-  //         isErrorUpload = true;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       isDetected = true;
-  //       isErrorUpload = true;
-  //     });
-  //   }
-  // }
-  // Future<void> uploadImage() async {
-  //   setState(() {
-  //     isDetected = false;
-  //     isErrorUpload = false;
-  //   });
-  //   var url = Uri.parse("https://dovtron-backend.vercel.app/api/detection");
-  //   File file = File(widget.image.path);
-  //   try {
-  //     var request = http.MultipartRequest('POST', url);
-  //     request.files.add(http.MultipartFile.fromBytes(
-  //         'img', file.readAsBytesSync(),
-  //         filename: widget.image.path));
-  //     var res = await request.send();
-  //     var resData = await http.Response.fromStream(res);
-  //     var data = json.decode(resData.body);
-  //     print(data);
-  //     if (data['status'] == 'success') {
-  //       setState(() {
-  //         isDetected = true;
-  //         isErrorUpload = false;
-  //       });
-  //     } else {
-  //       setState(() {
-  //         isDetected = true;
-  //         isErrorUpload = true;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       isDetected = true;
-  //       isErrorUpload = true;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -161,10 +117,13 @@ class _ResultPageState extends State<DetectionPage> {
               delay: 200,
               child: GestureDetector(
                 onTap: () {
-                  if (isDetected && !isErrorUpload) {
-                    Navigator.pushNamed(context, '/result');
-                  } else if (isDetected && isErrorUpload) {
-                    uploadImage();
+                  if (predictions.toUpperCase() != 'DAUN SEHAT') {
+                    if (isDetected && !isErrorUpload) {
+                      Navigator.pushNamed(context, '/result',
+                          arguments: DiseasePageArguments(predictions));
+                    } else if (isDetected && isErrorUpload) {
+                      uploadImage();
+                    }
                   }
                 },
                 child: Container(
@@ -178,11 +137,11 @@ class _ResultPageState extends State<DetectionPage> {
                     child: isDetected && !isErrorUpload
                         ? Stack(
                             children: [
-                              const Center(
+                              Center(
                                 child: Text(
-                                  'HAWAR DAUN',
+                                  predictions.toUpperCase(),
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
                                       color: Colors.white),
@@ -217,14 +176,19 @@ class _ResultPageState extends State<DetectionPage> {
                                       color: Colors.white),
                                 ),
                               )
-                            : const Center(
-                                child: Text(
-                                  'ULANGI DETEKSI',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: Colors.white),
+                            : GestureDetector(
+                                onTap: () {
+                                  uploadImage();
+                                },
+                                child: const Center(
+                                  child: Text(
+                                    'ULANGI DETEKSI',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               )),
               ),
